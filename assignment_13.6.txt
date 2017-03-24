@@ -1,0 +1,49 @@
+1. What kind of data Hbase can store:
+    * The data stored in HBase is of two kinds:
+         -> Row-oriented data stores 
+              - Data is stored and retrieved one row at a time and hence could read unnecessary data if only some of the data in a row is required
+              - Easy to read and write records
+              - Well suited for OLTP systems
+         -> Column-oriented data stores 
+              - Data is stored and retrieved in columns and hence can read only relevant data if only some data is required
+              - Read and Write are typically slower operations
+              - Well suited for OLAP systems
+
+2. Explain the important terms in hbase architecture:
+     * HBase Master Server
+          - Master server assigns region to region server with the help of Apache Zookeeper
+          - It is also responsible for load balancing
+     * HBase Regions
+          - HBase tables are divided horizontally into row-key range called “regions” and are managed by region server
+          - So regions are nothing bit the tables that are split horizontally into regions
+          - Regions are assigned to a node in the cluster called Region server
+     * HBase Region Server
+          - Region server manages regions and runs on HDFS DataNodes
+          - It communicates with the client and handles data-related operation
+          - Decide the size of the region
+          - Handle the read and write request for all the regions under it 
+     * HBase MemStore
+          - HBase memstore is like the cache memory
+          - When we want to write anything to HBase, first it is getting stores in memstore          
+     * HBase Hfiles
+          - As said, whenever any data is being written into HBase, first that gets written into memstore
+          - And when memstore accumulates enough data, the entire sorted key-value set is written into a new Hfiles in HDFS
+          - The write into HFile is sequential and is very fast
+     * Zookeeper
+          - HBase uses Zookeeper as a coordinator service to maintain the server state in the cluster
+          - It tells which servers are alive and available and also provides server failure notification
+          
+3. What is zookeeper? What happens if the zookeeper service is stopped:
+   Zookeeper:
+     * ZooKeeper is a distributed co-ordination service to manage large set of hosts
+     * Co-ordinating and managing a service in a distributed environment is a complicated process
+     * ZooKeeper solves this issue with its simple architecture and API
+     * ZooKeeper allows developers to focus on core application logic without worrying about the distributed nature of the application
+
+4. Is it necessary that region server be located on all DataNodes:
+     * YES , it is necessary thae region server to be located on all datanodes
+
+5. How will you implement joins in Hbase:
+     * Either load data in HIVE and design hive queries or develop map reduce application to perform join
+
+
